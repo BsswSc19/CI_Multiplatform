@@ -6,7 +6,7 @@ extern void dgesv_(int* n, int* nrhs, double* a, int* lda, int* ipiv,
                    double* b, int* ldb, int* info);
 
 int main(int argc, const char* argv[]) {
-    const double THRESHOLD = 1.0e-16;
+    const double THRESHOLD = 1.0e-15;
 
     int N = 5; 
     int nrhs = 1;
