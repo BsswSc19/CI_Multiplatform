@@ -38,6 +38,11 @@ matrix:
 
 before_install:
 - eval "${COMPILER_ENV}"
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get update                   ; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -y liblapack-dev ; fi
+# lapack is already installed in the OS X build environment
+#    => no need to use Travis CI homebrew addon to install it
+#- if [ "$TRAVIS_OS_NAME" == "osx"   ]; then brew install lapack                   ; fi
 - echo $TRAVIS_OS_NAME
 - echo $CC
 - echo $CXX
