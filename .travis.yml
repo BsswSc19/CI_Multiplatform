@@ -1,0 +1,63 @@
+# Specify information needed for setting up the default build environment
+language: C++
+sudo: False
+
+# Specify four different platform/compiler combinations for
+# building/testing the binary
+matrix:
+  include:
+    - os: linux 
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - COMPILER_ENV="CC=gcc-6 && CXX=g++-6"
+    - os: linux 
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-3.9
+          packages:
+            - clang-3.9
+      env:
+        - COMPILER_ENV="CC=clang-3.9 && CXX=clang++-3.9"
+    - os: osx
+      osx_image: xcode8
+      env:
+        # Update homebrew upfront so that we have a modern version
+        # of ruby installed first.
+        - COMPILER_ENV="brew update && brew install gcc@7 && CC=gcc-7 && CXX=g++-7"
+    - os: osx
+      osx_image: xcode8
+      env:
+        # Use the version of clang already in OS X image
+        - COMPILER_ENV="CC=clang && CXX=clang++"
+
+before_install:
+- eval "${COMPILER_ENV}"
+- echo $TRAVIS_OS_NAME
+- echo $CC
+- echo $CXX
+- $CC --version
+- $CXX --version
+
+install:
+- $CC -o solve_problem.x solve_problem.c
+- if [ "$TRAVIS_OS_NAME" == "osx"   ]; then otool -L $TRAVIS_BUILD_DIR/solve_problem.x ; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then ldd      $TRAVIS_BUILD_DIR/solve_problem.x ; fi
+
+script:
+- $TRAVIS_BUILD_DIR/solve_problem.x
+
+after_success:
+- echo "Success!"
+
+after_failure:
+- echo "Arrrrgggggghhhhhhh! Why?!"
+
+after_script:
+- echo "This Travis CI tutorial has come to an end..."
+
