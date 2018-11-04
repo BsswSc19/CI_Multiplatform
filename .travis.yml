@@ -45,7 +45,7 @@ before_install:
 - $CXX --version
 
 install:
-- $CC -o solve_problem.x solve_problem.c
+- $CC -o solve_problem.x solve_problem.c -llapack
 - if [ "$TRAVIS_OS_NAME" == "osx"   ]; then otool -L $TRAVIS_BUILD_DIR/solve_problem.x ; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ldd      $TRAVIS_BUILD_DIR/solve_problem.x ; fi
 
