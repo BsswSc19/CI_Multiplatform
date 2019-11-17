@@ -1,4 +1,7 @@
 # Specify information needed for setting up the default build environment
+# The sudo line here is now depracated by the move from containerized to
+# virtual-machine-based build environments
+# https://blog.travis-ci.com/2018-11-19-required-linux-infrastructure-migration
 language: C++
 sudo: False
 
